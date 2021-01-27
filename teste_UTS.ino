@@ -2,32 +2,65 @@
 
 UTS150CC module;
 
+void show_menu(void);       // Mostra o menu de opções
+char read_option(void);     // Lê a opcao desejada pelo usuario
+void move_option(void);     // 
+
 void setup() {
   Serial.begin(115200);
+  Serial.setTimeout(5000);  // Seta 5 segundos para dar tempo para o usuario escrever a distancia para o Top plate se mover
+
+  module.go_EORm();
+  delay(1000);
+
+  module.go_EORp();
+  delay(1000);
 
   module.go_home();
 
-  module.set_distance(2);
-  Serial.print("Distancia desejada: ");
-  Serial.print(module.get_distance());
-  Serial.println(" mm");
-  delay(2000);
-
-  module.move_plate(); 
-  Serial.print("Pulse Count: ");
+  Serial.print("Pulse Counter: ");
   Serial.println(module.get_pulseCount());
 
-  module.set_distance(-2);
-  Serial.print("Distancia desejada: ");
-  Serial.print(module.get_distance());
-  Serial.println(" mm");
-  delay(1000);
-  
-  module.move_plate(); 
-  Serial.print("Pulse Count: ");
-  Serial.println(module.get_pulseCount());
+  show_menu();
 }
 
 void loop() {
+   char opt = read_option();
+
+   switch(opt){
+    case 'L':
+      module.go_EORm();
+    break;
+    case 'R':
+      module.go_EORp();
+    break;
+    case 'H':
+      module.go_home();
+    break;
+    case 'M':
+      move_option();
+    break;
+   }
+}
+
+void show_menu(){
+  Serial.println("Digite uma Opcao: ");
+  Serial.println("Mover para Chave de fim de curso + : 'R'");
+  Serial.println("Mover para Chave de fim de curso - : 'L'");
+  Serial.println("Mover para Home Position - 'H'");
+  Serial.println("Mover um distancia desejada: - 'M'");
+}
+
+char read_option(){
+  return Serial.read();
+}
+
+void move_option(){
+  Serial.println("Digite uma distancia em mm (colocar o sinal de '-' para movimentar no sentido negativo): ");
   
+  float dist = Serial.parseFloat();     // Le o valor digitado pelo usuario
+  
+  if(Serial.read() == '\n');
+  module.set_distance(dist);
+  module.move_plate();
 }
