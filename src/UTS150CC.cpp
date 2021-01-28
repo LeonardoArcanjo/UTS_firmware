@@ -174,8 +174,8 @@ void UTS150CC::ai1(void){						// Função chamada pela ativição da interrupç
 	}
 }
 
-long int UTS150CC::get_pulseCount(){			// Getter do Atributo Privado pulse_count
-	// Getter do atributo privado contador de pulsos (pulse_count)
+long int UTS150CC::get_distanceRunned(){			// Retorna a distancia percorrida pelo Top Plate em micrometros
+	// A partir da variável "pulse_count" retorna a distância percorrida (em um) pelo Top Plate 
 	return pulse_count;
 }
 
@@ -196,18 +196,18 @@ void UTS150CC::move_plate(){					// Desloca o Top plate para a distancia desejad
 
 		do{
 			moveRight(33);
-		}while((pulse_count < value_ref) || (tstBit(PINA, PA0)));
+		}while((pulse_count <= value_ref) || (tstBit(PINA, PA0)));
 		
 		stop(); // Stop the Top Plate moviment
 
-	} else if (value_ref < pulse_count){
+	} else if (value_ref <= pulse_count){
 		do{
 			moveLeft(40);
-		}while ((pulse_count >= (value_ref + 5000)) || (tstBit(PINA, PA4)));
+		}while ((pulse_count > (value_ref + 5000)) || (tstBit(PINA, PA4)));
 
 		do{
 			moveLeft(37);
-		}while ((pulse_count >= (value_ref + 1000)) || (tstBit(PINA, PA4)));
+		}while ((pulse_count > (value_ref + 1000)) || (tstBit(PINA, PA4)));
 		do {
 			moveLeft(33);
 		}while((pulse_count >= value_ref) || (tstBit(PINA, PA4)));

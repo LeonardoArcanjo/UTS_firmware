@@ -28,8 +28,8 @@ public:
 	
 	void set_distance(float d);				// setter da variavel PRIVADA distance 
 	
-	long int get_pulseCount();				// Prototipo que retorna o valor do contador de pulsos (Getter da variável privada pulse_count)
-	float get_distance();				// retorna o valor da distancia desejada pelo usuário	(getter da variável privada distance )
+	long int get_distanceRunned();				// Prototipo que retorna a distancia percorida pelo Top Plate (O contador de pulsos convertido em distancia)
+	float get_distance();					// retorna o valor da distancia desejada pelo usuário	(getter da variável privada distance )
 	
 	void move_plate(); 						// executa o movimento
 

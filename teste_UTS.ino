@@ -19,7 +19,8 @@ void setup() {
   module.go_home();
 
   Serial.print("Pulse Counter: ");
-  Serial.println(module.get_pulseCount());
+  Serial.print(module.get_distanceRunned());
+  Serial.println(" mm");
 
   show_menu();
 }
@@ -56,11 +57,19 @@ char read_option(){
 }
 
 void move_option(){
-  Serial.println("Digite uma distancia em mm (colocar o sinal de '-' para movimentar no sentido negativo): ");
+  Serial.print("Digite uma distancia em mm (colocar o sinal de '-' para movimentar no sentido negativo): ");
   
   float dist = Serial.parseFloat();     // Le o valor digitado pelo usuario
   
-  if(Serial.read() == '\n');
+  if(Serial.read() == '\n'){
+    Serial.print(dist);
+    Serial.println(" mm");
+  }
   module.set_distance(dist);
   module.move_plate();
+
+  Serial.print("Distancia percorrida: ");
+  Serial.print(module.get_distanceRunned());
+  Serial.println(" um");
+  Serial.println("===================================");
 }
